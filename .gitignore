@@ -6,9 +6,7 @@ bin-int/
 .vs/
 
 *.sln
-
-*.vcxproj
-*.vcxproj.user
+*.vcxproj*
 
 # Additional Files
 dev_cmd.bat

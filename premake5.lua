@@ -7,41 +7,77 @@ workspace "LunarEngine"
 
     OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "Lunar"
-    location "Lunar"
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++20"
-    staticruntime "on"
+    INCLUDE_DIR = {}
+    INCLUDE_DIR["GLFW"] = "Lunar/vendors/glfw/include"
+    INCLUDE_DIR["GLM"]  = "Lunar/vendors/glm"
+    INCLUDE_DIR["Glad"] = "Lunar/vendors/glad/include"
+    INCLUDE_DIR["stb_image"] = "Lunar/vendors/stb_image"
 
-    targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}")
-    objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}")
+    include "Lunar/vendors/glfw"
+    include "Lunar/vendors/glad"
 
-    files {
-        "%{prj.name}/src/**.c",
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp",
-        "%{prj.name}/src/**.hpp"
-    }
+    project "Lunar"
+        location "Lunar"
+        kind "ConsoleApp"
+        language "C++"
+        cppdialect "C++20"
+        staticruntime "on"
 
-    defines {
-        "_CRT_SECURE_NO_WARNINGS"
-    }
+        targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}")
+        objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}")
 
-    filter "system:windows"
-        systemversion "latest"
-    
-    filter "configurations:Debug" 
-        defines "LNA_DEBUG" 
-        runtime "Debug" 
-        symbols "on"
-    
-    filter "configurations:Release" 
-        defines "LNA_RELEASE" 
-        runtime "Release" 
-        symbols "on"
+        files {
+            "%{prj.name}/src/**.c",
+            "%{prj.name}/src/**.h",
+            "%{prj.name}/src/**.cpp",
+            "%{prj.name}/src/**.hpp",
 
-    filter "configurations:Distribution" 
-        defines "LNA_DIST" 
-        runtime "Release" 
-        symbols "on"
+            "%{prj.name}/vendors/stb_image/**.cpp",
+            "%{prj.name}/vendors/stb_image/**.h",
+
+            "%{prj.name}/vendors/glm/glm/**.h",
+            "%{prj.name}/vendors/glm/glm/**.hpp",
+            "%{prj.name}/vendors/glm/glm/**.inl"
+        }
+
+        links {
+            "glfw",
+            "glad",
+            "opengl32.lib"
+        }
+
+        defines {
+            "_CRT_SECURE_NO_WARNINGS"
+        }
+
+        includedirs {
+            "%{prj.name}/src/luna",
+            
+            "%{INCLUDE_DIR.GLFW}",
+            "%{INCLUDE_DIR.GLM}",
+            "%{INCLUDE_DIR.Glad}",
+            "%{INCLUDE_DIR.stb_image}"
+        }
+
+        filter "system:windows"
+            systemversion "latest"
+
+            defines {
+                "LNA_BUILD_DLL",
+                "GLFW_INCLUDE_NONE"
+            }
+
+        filter "configurations:Debug" 
+            defines "LNA_DEBUG" 
+            runtime "Debug" 
+            symbols "on"
+
+        filter "configurations:Release" 
+            defines "LNA_RELEASE" 
+            runtime "Release" 
+            symbols "on"
+
+        filter "configurations:Distribution" 
+            defines "LNA_DIST" 
+            runtime "Release" 
+            symbols "on"

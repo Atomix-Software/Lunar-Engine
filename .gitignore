@@ -1,0 +1,14 @@
+# Build Directories
+bin/
+bin-int/
+
+# Visual Studio Directories/Files
+.vs/
+
+*.sln
+
+*.vcxproj
+*.vcxproj.user
+
+# Additional Files
+dev_cmd.bat

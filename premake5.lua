@@ -25,6 +25,9 @@ workspace "LunarEngine"
 
         targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}")
         objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}")
+        
+        pchheader "luna/lnapch.h"
+        pchsource "Lunar/src/luna/lnapch.cpp"
 
         files {
             "%{prj.name}/src/**.c",
@@ -51,7 +54,7 @@ workspace "LunarEngine"
         }
 
         includedirs {
-            "%{prj.name}/src/luna",
+            "%{prj.name}/src",
             
             "%{INCLUDE_DIR.GLFW}",
             "%{INCLUDE_DIR.GLM}",
@@ -63,6 +66,7 @@ workspace "LunarEngine"
             systemversion "latest"
 
             defines {
+                "LNA_PLATFORM_WINDOWS",
                 "LNA_BUILD_DLL",
                 "GLFW_INCLUDE_NONE"
             }

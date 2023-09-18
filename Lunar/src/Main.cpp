@@ -1,4 +1,6 @@
-#include <iostream>
+#include <luna/lnapch.h>
+
+#include "luna/Window.h"
 
 int main(int argc, char* argv[])
 {

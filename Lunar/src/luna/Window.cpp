@@ -46,6 +46,7 @@ namespace luna {
 		const GLFWvidmode* vid_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		if (vid_mode == nullptr)
 		{
+			std::cout << "Failed to get Video Info!" << std::endl;
 			throw std::exception();
 			return;
 		}

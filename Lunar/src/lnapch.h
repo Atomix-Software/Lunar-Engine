@@ -18,6 +18,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "luna/core/Log.h"
+#include "luna/debug/Instrumentor.h"
+
 #ifdef LNA_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

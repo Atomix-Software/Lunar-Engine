@@ -3,7 +3,7 @@ workspace "LunarEngine"
     architecture "x64"
     configurations { "Debug", "Release", "Distribution"}
 
-    startproject "Lunar"
+    startproject "Apollo"
 
     OUTPUT_DIR = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -18,7 +18,7 @@ workspace "LunarEngine"
 
     project "Lunar"
         location "Lunar"
-        kind "ConsoleApp"
+        kind "StaticLib"
         language "C++"
         cppdialect "C++20"
         staticruntime "on"
@@ -26,8 +26,8 @@ workspace "LunarEngine"
         targetdir ("bin/" .. OUTPUT_DIR .. "/%{prj.name}")
         objdir ("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}")
         
-        pchheader "luna/lnapch.h"
-        pchsource "Lunar/src/luna/lnapch.cpp"
+        pchheader "lnapch.h"
+        pchsource "Lunar/src/lnapch.cpp"
 
         files {
             "%{prj.name}/src/**.c",
@@ -43,18 +43,13 @@ workspace "LunarEngine"
             "%{prj.name}/vendors/glm/glm/**.inl"
         }
 
-        links {
-            "glfw",
-            "glad",
-            "opengl32.lib"
-        }
-
         defines {
             "_CRT_SECURE_NO_WARNINGS"
         }
 
         includedirs {
             "%{prj.name}/src",
+            "%{prj.name}/vendors/spdlog/include",
             
             "%{INCLUDE_DIR.GLFW}",
             "%{INCLUDE_DIR.GLM}",
@@ -62,11 +57,16 @@ workspace "LunarEngine"
             "%{INCLUDE_DIR.stb_image}"
         }
 
+        links {
+            "glfw",
+            "glad",
+            "opengl32.lib"
+        }
+
         filter "system:windows"
             systemversion "latest"
 
             defines {
-                "LNA_PLATFORM_WINDOWS",
                 "LNA_BUILD_DLL",
                 "GLFW_INCLUDE_NONE"
             }
@@ -85,3 +85,52 @@ workspace "LunarEngine"
             defines "LNA_DIST" 
             runtime "Release" 
             symbols "on"
+
+project "Apollo"
+        location "Apollo" 
+        kind "ConsoleApp" 
+        language "C++" 
+        cppdialect "C++20"
+        staticruntime "on" 
+        
+        targetdir("bin/" .. OUTPUT_DIR .. "/%{prj.name}")
+        objdir("bin-int/" .. OUTPUT_DIR .. "/%{prj.name}")
+
+        files {
+            "%{prj.name}/src/**.h",
+            "%{prj.name}/src/**.c",
+            "%{prj.name}/src/**.hpp",
+            "%{prj.name}/src/**.cpp"
+	    }
+
+        includedirs
+        {
+            "%{INCLUDE_DIR.GLM}",
+            "Lunar/vendors/spdlog/include",
+            "Lunar/vendors",
+            "Lunar/src"
+        }
+
+        links
+        {
+            "Lunar"
+        }
+
+        filter "system:windows"
+            staticruntime "On"
+            systemversion "latest"
+
+        filter "configurations:Debug"
+            defines "LNA_DEBUG"
+            runtime "Debug"
+            symbols "on"
+
+        filter "configurations:Release"
+            defines "LNA_RELEASE"
+            runtime "Release"
+            optimize "on"
+
+        filter "configurations:Dist"
+            defines "LNA_DIST"
+            runtime "Release"
+            optimize "on"

@@ -70,6 +70,8 @@ namespace luna
 			{
 				LNA_PROFILE_SCOPE("RunLoop");
 
+				// For now we explicitly use GLFW to handle time calculations
+				// Realistically this would be handled on a per-OS instance.
 				float time = (float)glfwGetTime();
 				Timestep timestep = time - m_LastFrame;
 				m_LastFrame = time;

@@ -1,6 +1,6 @@
 #include <lnapch.h>
-#include <Luna.h>
 
+#include "MoonGame.h"
 #include <luna/core/EntryPoint.h>
 
 namespace luna
@@ -9,7 +9,10 @@ namespace luna
 	{
 	public:
 		Sample(WindowProps& props) :
-			Application(props) {}
+			Application(props) 
+		{
+			PushLayer(new MoonGame());
+		}
 	};
 
 	Application* CreateApplication()

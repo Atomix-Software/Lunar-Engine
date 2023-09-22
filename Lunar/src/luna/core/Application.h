@@ -13,6 +13,9 @@
 
 namespace luna
 {
+	/*
+	* The Application class. Handles a Window, a LayerStack, and the Game Loop.
+	*/
 	class LNA_API Application
 	{
 	public:

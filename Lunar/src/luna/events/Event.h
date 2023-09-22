@@ -4,7 +4,7 @@
 
 namespace luna
 {
-
+	// Valid event types
 	enum class EventType
 	{
 		None = 0,
@@ -14,6 +14,7 @@ namespace luna
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
+	// The Event Category (via bits)
 	enum EventCategory
 	{
 		None = 0,
@@ -30,6 +31,7 @@ namespace luna
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
+	// Generic Event class, meant to be a simple Event
 	class LNA_API Event
 	{
 	public:
@@ -60,6 +62,9 @@ namespace luna
 		bool m_Handled = false;
 	};
 
+	/*
+	* The Dispatcher obviously handles polling and dispatching Events that find their way to it.
+	*/
 	class EventDispatcher
 	{
 		template<typename T>

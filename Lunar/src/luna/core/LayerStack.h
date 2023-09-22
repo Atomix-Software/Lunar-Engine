@@ -7,6 +7,14 @@
 
 namespace luna
 {
+
+	/*
+	* Self-Explanatory. This handles a stack of Layers.
+	* + Lets you Push a normal Layer and an Overlay.
+	* + Also allows you to pop any specific Layers you add.
+	* 
+	* - Very simple
+	*/
 	class LNA_API LayerStack
 	{
 	public:

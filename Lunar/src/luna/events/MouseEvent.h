@@ -4,6 +4,11 @@
 
 namespace luna {
 
+	/*
+	* Events related to the Mouse.
+	* These Events will be dispatched when a Mouse Button is pressed or if the Mouse is moved.
+	*/
+
 	class MouseMovedEvent : public Event
 	{
 	public:

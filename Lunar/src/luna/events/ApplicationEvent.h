@@ -4,6 +4,11 @@
 
 namespace luna {
 
+	/*
+	* Everything here is meant to be any Events related to an Application running.
+	* Be it the Window updating, the App Ticking, or the Game Rendering.
+	*/
+
 	class WindowResizeEvent : public Event
 	{
 	public:

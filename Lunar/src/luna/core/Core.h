@@ -66,6 +66,7 @@
 	#define LNA_CORE_ASSERT(x, ...) 
 #endif
 
+// Shifts a value over by a desired amount of bits
 #define BIT(x) (1 << x)
 #define LNA_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-// Temporary
+// Temp Keycodes, look familiar? :)
 
 /* The mod keys */
 #define LNA_MOD_SHIFT           0x0001

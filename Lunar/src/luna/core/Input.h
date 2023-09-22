@@ -4,6 +4,10 @@
 
 namespace luna
 {
+	/*
+	* Simple static class for Input.
+	* Lets us get keyboard and mouse input.
+	*/
 	class Input
 	{
 	public:

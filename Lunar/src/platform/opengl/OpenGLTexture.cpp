@@ -43,12 +43,12 @@ namespace luna
 			GLenum internalFormat = 0, dataFormat = 0;
 			if (channels == 4)
 			{
-				internalFormat = GL_RGBA8;
+				internalFormat = GL_RGBA16;
 				dataFormat = GL_RGBA;
 			}
 			else if (channels == 3)
 			{
-				internalFormat = GL_RGB8;
+				internalFormat = GL_RGB16;
 				dataFormat = GL_RGB;
 			}
 

@@ -7,6 +7,10 @@
 
 namespace luna
 {
+	/*
+	* Layer is essentially the instance of the app we'll hand everything over to.
+	* A Game Layer for example could be used to handle Game related purposes.
+	*/
 	class LNA_API Layer
 	{
 	public:
@@ -17,7 +21,6 @@ namespace luna
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}
 		virtual void OnUpdate(Timestep ts) {}
-		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 
 		inline const std::string& GetName() const { return m_DebugName; }

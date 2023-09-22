@@ -4,6 +4,11 @@
 
 namespace luna {
 
+	/*
+	* Events related to the Keyboard.
+	* These Events will be dispatched when a Key is pressed and the like.
+	*/
+
 	class KeyEvent : public Event
 	{
 	public:

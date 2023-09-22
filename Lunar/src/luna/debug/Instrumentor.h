@@ -9,6 +9,10 @@
 
 namespace luna
 {
+    /*
+    * Our Profiler, helps us get analytics about our app
+    */
+
     struct ProfileResult
     {
         std::string Name;

@@ -19,6 +19,9 @@ namespace luna
 	void Renderer::Shutdown()
 	{
 		Renderer2D::Shutdown();
+
+		delete m_SceneData;
+		m_SceneData = nullptr;
 	}
 
 	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
@@ -38,11 +41,18 @@ namespace luna
 
 	void Renderer::Push(const Shared<Shader>& shader, const Shared<VertexArray>& vao, const glm::mat4 transform)
 	{
-		shader->Bind();
-		shader->SetMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
-		shader->SetMat4("u_Transform", transform);
+		if (shader && vao)
+		{
+			shader->Bind();
+			shader->SetMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+			shader->SetMat4("u_Transform", transform);
 
-		vao->Bind();
-		RenderCommand::DrawIndex(vao);
+			vao->Bind();
+			RenderCommand::DrawIndex(vao);
+		}
+		else 
+		{
+			LNA_CORE_ERROR("The Shader or VAO are invalid.");
+		}
 	}
 }

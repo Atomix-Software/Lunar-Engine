@@ -12,7 +12,7 @@ namespace luna
 	class OrthoController
 	{
 	public:
-		OrthoController(float width = 1280, float height = 720, bool rotation = false);
+		OrthoController(float width = 1280, float height = 720, bool rotation = false, bool debugInput = false);
 
 		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
@@ -34,6 +34,7 @@ namespace luna
 
 		OrthoCamera m_Camera;
 
+		bool m_DebugInput;
 		bool m_Rotation;
 
 		glm::vec3 m_CamPosition = { 0.0f, 0.0f, 0.0f };

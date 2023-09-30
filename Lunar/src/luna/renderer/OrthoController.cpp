@@ -8,8 +8,8 @@
 
 namespace luna
 {
-	OrthoController::OrthoController(float width, float height, bool rotation) :
-		m_AspectRatio(width / height), m_Camera(-m_AspectRatio * m_Zoom, m_AspectRatio* m_Zoom, -m_Zoom, m_Zoom), m_Rotation(rotation)
+	OrthoController::OrthoController(float width, float height, bool rotation, bool debugInput) :
+		m_AspectRatio(width / height), m_Camera(-m_AspectRatio * m_Zoom, m_AspectRatio* m_Zoom, -m_Zoom, m_Zoom), m_Rotation(rotation), m_DebugInput(debugInput)
 	{
 	}
 
@@ -17,46 +17,49 @@ namespace luna
 	{
 		LNA_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed(LNA_KEY_UP))
+		if (m_DebugInput)
 		{
-			m_CamPosition.x += -sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
-			m_CamPosition.y += cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+			if (Input::IsKeyPressed(LNA_KEY_UP))
+			{
+				m_CamPosition.x += -sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+				m_CamPosition.y += cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+			}
+			else if (Input::IsKeyPressed(LNA_KEY_DOWN))
+			{
+				m_CamPosition.x -= -sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+				m_CamPosition.y -= cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+			}
+
+			if (Input::IsKeyPressed(LNA_KEY_LEFT))
+			{
+				m_CamPosition.x -= cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+				m_CamPosition.y -= sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+			}
+			else if (Input::IsKeyPressed(LNA_KEY_RIGHT))
+			{
+				m_CamPosition.x += cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+				m_CamPosition.y += sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
+			}
+
+
+			if (m_Rotation)
+			{
+				if (Input::IsKeyPressed(LNA_KEY_Q))
+					m_CamRotation += m_RotationSpeed * ts;
+				else if (Input::IsKeyPressed(LNA_KEY_E))
+					m_CamRotation -= m_RotationSpeed * ts;
+
+				if (m_CamRotation > 180.0f)
+					m_CamRotation -= 360.0f;
+				else if (m_CamRotation <= -180.0f)
+					m_CamRotation += 360.0f;
+
+				m_Camera.SetRotation(m_CamRotation);
+			}
+
+			m_Camera.SetPosition(m_CamPosition);
+			m_TranslateSpeed = m_Zoom;
 		}
-		else if (Input::IsKeyPressed(LNA_KEY_DOWN))
-		{
-			m_CamPosition.x -= -sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
-			m_CamPosition.y -= cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
-		}
-
-		if (Input::IsKeyPressed(LNA_KEY_LEFT))
-		{
-			m_CamPosition.x -= cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
-			m_CamPosition.y -= sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
-		}
-		else if (Input::IsKeyPressed(LNA_KEY_RIGHT))
-		{
-			m_CamPosition.x += cos(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
-			m_CamPosition.y += sin(glm::radians(m_CamRotation)) * m_TranslateSpeed * ts;
-		}
-
-
-		if (m_Rotation)
-		{
-			if (Input::IsKeyPressed(LNA_KEY_Q))
-				m_CamRotation += m_RotationSpeed * ts;
-			else if (Input::IsKeyPressed(LNA_KEY_E))
-				m_CamRotation -= m_RotationSpeed * ts;
-
-			if (m_CamRotation > 180.0f)
-				m_CamRotation -= 360.0f;
-			else if (m_CamRotation <= -180.0f)
-				m_CamRotation += 360.0f;
-
-			m_Camera.SetRotation(m_CamRotation);
-		}
-
-		m_Camera.SetPosition(m_CamPosition);
-		m_TranslateSpeed = m_Zoom;
 	}
 
 	void OrthoController::OnEvent(Event& e)

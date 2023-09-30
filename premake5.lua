@@ -11,6 +11,7 @@ workspace "LunarEngine"
     INCLUDE_DIR["GLFW"] = "Lunar/vendors/glfw/include"
     INCLUDE_DIR["GLM"]  = "Lunar/vendors/glm"
     INCLUDE_DIR["Glad"] = "Lunar/vendors/glad/include"
+    INCLUDE_DIR["entt"] = "Lunar/vendors/entt/include"
     INCLUDE_DIR["stb_image"] = "Lunar/vendors/stb_image"
 
     include "Lunar/vendors/glfw"
@@ -54,6 +55,7 @@ workspace "LunarEngine"
             "%{INCLUDE_DIR.GLFW}",
             "%{INCLUDE_DIR.GLM}",
             "%{INCLUDE_DIR.Glad}",
+            "%{INCLUDE_DIR.entt}",
             "%{INCLUDE_DIR.stb_image}"
         }
 
@@ -106,6 +108,7 @@ project "Apollo"
         includedirs
         {
             "%{INCLUDE_DIR.GLM}",
+            "%{INCLUDE_DIR.entt}",
             "Lunar/vendors/spdlog/include",
             "Lunar/vendors",
             "Lunar/src"

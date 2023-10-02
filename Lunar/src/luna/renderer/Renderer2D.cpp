@@ -127,6 +127,11 @@ namespace luna
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glDisable(GL_DEPTH_TEST);
+
 		s_Data.QuadShader->Bind();
 		s_Data.QuadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
@@ -138,7 +143,9 @@ namespace luna
 		LNA_PROFILE_FUNCTION();
 		Flush();
 
-		glCullFace(GL_BACK);
+		glEnable(GL_DEPTH_TEST);
+
+		glDisable(GL_BLEND);
 		glDisable(GL_CULL_FACE);
 	}
 

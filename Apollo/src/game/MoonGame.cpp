@@ -30,14 +30,14 @@ namespace game
 
 		auto entity = registry.create();
 		registry.emplace<Component::Renderable>(entity, Ship, 0.1f, 0.1f);
-		registry.emplace<Component::Transform>(entity, glm::vec3(0.5f, -0.25f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
+		registry.emplace<Component::Transform>(entity, glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
 		registry.emplace<Component::Velocity>(entity, glm::vec3(0.0f), 0.025f);
 
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 75; i++)
 		{
 			auto entity = registry.create();
 			registry.emplace<Component::Renderable>(entity, Star, 0.1f, 0.1f);
-			registry.emplace<Component::Transform>(entity, glm::vec3(randf(-1.0f, 1.0f), randf(-1.0f, 1.0f), -0.1f), glm::vec3(0.0f, 0.0f, randf(0.0f, 360.0f)), glm::vec3(1.0f));
+			registry.emplace<Component::Transform>(entity, glm::vec3(randf(-1.25, 1.25), randf(-1.25, 1.25), randf(-1.0f, 1.0f)), glm::vec3(0.0f, 0.0f, randf(0.0f, 360.0f)), glm::vec3(1.0f));
 		}
 	}
 
@@ -92,6 +92,14 @@ namespace game
 			motion.Direction.y = -0.5f;
 
 		trans.Position += motion.Direction * glm::vec3(ts, ts, 0.0f);
+
+		if (trans.Position.x >= 1.0f || trans.Position.x <= -1.0f)
+			trans.Position.x = -trans.Position.x;
+
+		if (trans.Position.y >= 1.0f || trans.Position.y <= -1.0f)
+			trans.Position.y = -trans.Position.y;
+
+		LNA_TRACE("Ship Coords: {}, {}", trans.Position.x, trans.Position.y);
 
 		RenderCommand::SetClearColor({ .05f, .05f, .05f, 1.f });
 		RenderCommand::Clear();

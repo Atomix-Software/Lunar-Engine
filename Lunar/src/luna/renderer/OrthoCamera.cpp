@@ -6,7 +6,7 @@
 namespace luna
 {
 	OrthoCamera::OrthoCamera(float left, float right, float bot, float top) :
-		m_Position(0.0f), m_ProjectionMatrix(glm::ortho(left, right, bot, top)), m_ViewMatrix(1.0f)
+		m_Position(0.0f), m_ProjectionMatrix(glm::ortho(left, right, bot, top, -1.0f, 1.0f)), m_ViewMatrix(1.0f)
 	{
 		LNA_PROFILE_FUNCTION();
 		m_CombinedMatrix = m_ProjectionMatrix * m_ViewMatrix;
@@ -16,7 +16,7 @@ namespace luna
 	{
 		LNA_PROFILE_FUNCTION();
 
-		m_ProjectionMatrix = glm::ortho(left, right, bot, top);
+		m_ProjectionMatrix = glm::ortho(left, right, bot, top, -1.0f, 1.0f);
 		m_CombinedMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 

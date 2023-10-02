@@ -30,7 +30,8 @@ namespace game
 
 		auto entity = registry.create();
 		registry.emplace<Component::Renderable>(entity, Ship, 0.1f, 0.1f);
-		registry.emplace<Component::Transform>(entity, glm::vec3(0.5f, -0.25f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
+		registry.emplace<Component::Transform>(entity, glm::vec3(0.5f, -0.25f, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
+		registry.emplace<Component::Velocity>(entity, glm::vec3(0.0f), 0.025f);
 
 		for (int i = 0; i < 50; i++)
 		{
@@ -53,16 +54,44 @@ namespace game
 
 		auto ent = view.back();
 		auto& trans = registry.get<Component::Transform>(ent);
-
-		if (Input::IsKeyPressed(LNA_KEY_W))
-			trans.Position.y += 0.5f * ts;
-		else if (Input::IsKeyPressed(LNA_KEY_S))
-			trans.Position.y -= 0.5f * ts;
+		auto& motion = registry.get<Component::Velocity>(ent);
 
 		if (Input::IsKeyPressed(LNA_KEY_A))
-			trans.Rotation.z -= 90.0f * ts;
+			trans.Rotation.z -= 180.0f * ts;
 		else if (Input::IsKeyPressed(LNA_KEY_D))
-			trans.Rotation.z += 90.0f * ts;
+			trans.Rotation.z += 180.0f * ts;
+
+		if (trans.Rotation.z >= 360.0f)
+			trans.Rotation.z = 0.0f;
+		else if (trans.Rotation.z < 0.0f)
+			trans.Rotation.z = 360.0f;
+
+		glm::vec2 velocity(0.0f);
+		if (Input::IsKeyPressed(LNA_KEY_W))
+		{
+			velocity.x = motion.Speed * -glm::cos(glm::radians(trans.Rotation.z));
+			velocity.y = motion.Speed * glm::sin(glm::radians(trans.Rotation.z));
+		}
+		else if (Input::IsKeyPressed(LNA_KEY_S))
+		{
+			velocity.x = motion.Speed * glm::cos(glm::radians(trans.Rotation.z));
+			velocity.y = motion.Speed * -glm::sin(glm::radians(trans.Rotation.z));
+		}
+
+		motion.Direction.x += velocity.x;
+		motion.Direction.y += velocity.y;
+
+		if (motion.Direction.x >= 0.5f)
+			motion.Direction.x = 0.5f;
+		else if (motion.Direction.x <= -0.5f)
+			motion.Direction.x = -0.5f;
+
+		if (motion.Direction.y >= 0.5f)
+			motion.Direction.y = 0.5f;
+		else if (motion.Direction.y <= -0.5f)
+			motion.Direction.y = -0.5f;
+
+		trans.Position += motion.Direction * glm::vec3(ts, ts, 0.0f);
 
 		RenderCommand::SetClearColor({ .05f, .05f, .05f, 1.f });
 		RenderCommand::Clear();

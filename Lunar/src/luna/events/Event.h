@@ -1,6 +1,7 @@
 #pragma once
 
 #include "luna/core/Core.h"
+#include <sstream>
 
 namespace luna
 {

@@ -51,7 +51,9 @@ namespace luna
 		private:
 			std::list<EntitySystem*> m_Systems;
 			entt::registry m_Registry;
+
 			bool m_Running;
+			int m_HighestPriority, m_PriorityCounter;
 		};
 
 	}

@@ -30,4 +30,13 @@ namespace component
 		float Time = 1.0f;
 		float Counter = Time;
 	};
+
+	struct Player
+	{
+		int Lives = 3;
+		bool Alive = true, Firing = false;
+
+		bool Forward = false, Backward = false;
+		bool TurnLeft = false, TurnRight = false;
+	};
 }

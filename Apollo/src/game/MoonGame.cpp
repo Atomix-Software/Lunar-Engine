@@ -2,7 +2,9 @@
 #include <random>
 
 #include "ecs/Components.hpp"
+
 #include "ecs/systems/RenderSystem.h"
+#include "ecs/systems/PlayerSystem.h"
 
 namespace game
 {
@@ -26,8 +28,15 @@ namespace game
 		Star = TextureAtlas2D::CreateFromCoords(m_Textures["stars"], {0, 0}, {16, 16});
 		SShip = TextureAtlas2D::CreateFromCoords(m_Textures["ship_rocks"], {0, 0}, {16, 16});
 
-		m_Engine.AddSystem(new ecs::RenderSystem(m_CamControl));
+		m_Engine.AddSystem(new ecs::RenderSystem(m_CamControl, 0));
+		m_Engine.AddSystem(new ecs::PlayerSystem(1));
 		m_Engine.Start();
+
+		auto player = m_Engine.CreateEntity("Player");
+		m_Engine.AddComponent<component::Player>(player);
+		m_Engine.AddComponent<component::Renderable>(player, SShip, 0.1f, 0.1f);
+		m_Engine.AddComponent<component::Transform>(player, glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
+		m_Engine.AddComponent<component::Velocity>(player, glm::vec3(0.0f), 0.025f);
 
 		for (int i = 0; i < 75; i++)
 		{
@@ -54,71 +63,4 @@ namespace game
 		m_CamControl.OnEvent(event);
 	}
 
-
-
-	//Ship::Ship(Shared<luna::TextureAtlas2D> texture, entt::registry& registry, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
-	//{
-	//	m_Id = registry.create();
-	//	registry.emplace<component::Renderable>(m_Id, texture, 0.1f, 0.1f);
-	//	registry.emplace<component::Transform>(m_Id, position, rotation, scale);
-	//	registry.emplace<component::Velocity>(m_Id, glm::vec3(0.0f), 0.025f);
-	//}
-	//
-	//void Ship::OnUpdate(Timestep ts)
-	//{
-	//	auto& trans = registry.get<component::Transform>(m_Id);
-	//	auto& motion = registry.get<component::Velocity>(m_Id);
-	//
-	//	if (Input::IsKeyPressed(LNA_KEY_A))
-	//		trans.Rotation.z -= 180.0f * ts;
-	//	else if (Input::IsKeyPressed(LNA_KEY_D))
-	//		trans.Rotation.z += 180.0f * ts;
-	//
-	//	if (trans.Rotation.z >= 360.0f)
-	//		trans.Rotation.z = 0.0f;
-	//	else if (trans.Rotation.z < 0.0f)
-	//		trans.Rotation.z = 360.0f;
-	//
-	//	glm::vec2 velocity(0.0f);
-	//	if (Input::IsKeyPressed(LNA_KEY_W))
-	//	{
-	//		velocity.x = motion.Speed * -glm::cos(glm::radians(trans.Rotation.z));
-	//		velocity.y = motion.Speed * glm::sin(glm::radians(trans.Rotation.z));
-	//	}
-	//	else if (Input::IsKeyPressed(LNA_KEY_S))
-	//	{
-	//		velocity.x = motion.Speed * glm::cos(glm::radians(trans.Rotation.z));
-	//		velocity.y = motion.Speed * -glm::sin(glm::radians(trans.Rotation.z));
-	//	}
-	//
-	//	motion.Direction.x += velocity.x;
-	//	motion.Direction.y += velocity.y;
-	//
-	//	if (motion.Direction.x >= 0.5f)
-	//		motion.Direction.x = 0.5f;
-	//	else if (motion.Direction.x <= -0.5f)
-	//		motion.Direction.x = -0.5f;
-	//
-	//	if (motion.Direction.y >= 0.5f)
-	//		motion.Direction.y = 0.5f;
-	//	else if (motion.Direction.y <= -0.5f)
-	//		motion.Direction.y = -0.5f;
-	//
-	//	trans.Position += motion.Direction * glm::vec3(ts, ts, 0.0f);
-	//
-	//	if (trans.Position.x >= 1.0f || trans.Position.x <= -1.0f)
-	//		trans.Position.x = -trans.Position.x;
-	//
-	//	if (trans.Position.y >= 1.0f || trans.Position.y <= -1.0f)
-	//		trans.Position.y = -trans.Position.y;
-	//
-	//}
-	//
-	//void Ship::OnRender(Timestep ts)
-	//{
-	//	auto& trans = registry.get<component::Transform>(m_Id);
-	//	auto& spr = registry.get<component::Renderable>(m_Id);
-	//
-	//	Renderer2D::DrawRotatedQuad(trans.Position, { spr.width * trans.Scale.x, spr.height * trans.Scale.y }, trans.Rotation.z, spr.texture);
-	//}
 }

@@ -28,7 +28,16 @@ namespace game
 			luna::Renderer2D::BeginScene(m_CamControl.GetCamera());
 			// Rendering every Entity with a Renderable and Transform Component
 			for (auto [entity, tag, spr, trans] : view.each())
+			{
+				if (tag.Name.compare("Player") == 0) continue;
 				luna::Renderer2D::DrawRotatedQuad(trans.Position, { spr.width * trans.Scale.x, spr.height * trans.Scale.y }, trans.Rotation.z, spr.texture);
+			}
+			
+			auto pview = reg.view<component::Player, component::Renderable, component::Transform>();
+			for (auto [entity, plyer, spr, trans] : pview.each())
+			{ 
+				luna::Renderer2D::DrawRotatedQuad(trans.Position, { spr.width * trans.Scale.x, spr.height * trans.Scale.y }, trans.Rotation.z, spr.texture);
+			}
 
 			luna::Renderer2D::EndScene();
 		}

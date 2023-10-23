@@ -13,6 +13,12 @@ namespace component
 		float height = 1.0f;
 	};
 
+	struct Rock
+	{
+		int Level = 3;
+		bool RotateLeft = false;
+	};
+
 	struct Velocity
 	{
 		glm::vec3 Direction = glm::vec3(0.0f);

@@ -26,16 +26,37 @@ namespace game
 		void PlayerSystem::ProcessEntities(entt::registry& reg, luna::Timestep ts)
 		{
 			auto view = reg.view<component::Player>();
-			auto entity = view.back();
-			auto& player = reg.get<component::Player>(entity);
+			auto player = view.back();
+			auto& plyr = reg.get<component::Player>(player);
 
-			player.Firing = luna::Input::IsKeyPressed(LNA_KEY_SPACE);
+			if (plyr.Alive)
+			{
+				if (static_cast<int>(ts.GetSeconds()) % 2 == 0.0f)
+					plyr.Score++;
 
-			player.Forward = luna::Input::IsKeyPressed(LNA_KEY_W) && !luna::Input::IsKeyPressed(LNA_KEY_S);
-			player.Backward = !luna::Input::IsKeyPressed(LNA_KEY_W) && luna::Input::IsKeyPressed(LNA_KEY_S);
+				plyr.Firing = luna::Input::IsKeyPressed(LNA_KEY_SPACE);
 
-			player.TurnLeft = luna::Input::IsKeyPressed(LNA_KEY_A) && !luna::Input::IsKeyPressed(LNA_KEY_D);
-			player.TurnRight = !luna::Input::IsKeyPressed(LNA_KEY_A) && luna::Input::IsKeyPressed(LNA_KEY_D);
+				plyr.Forward = luna::Input::IsKeyPressed(LNA_KEY_W) && !luna::Input::IsKeyPressed(LNA_KEY_S);
+				plyr.Backward = !luna::Input::IsKeyPressed(LNA_KEY_W) && luna::Input::IsKeyPressed(LNA_KEY_S);
+
+				plyr.TurnLeft = luna::Input::IsKeyPressed(LNA_KEY_A) && !luna::Input::IsKeyPressed(LNA_KEY_D);
+				plyr.TurnRight = !luna::Input::IsKeyPressed(LNA_KEY_A) && luna::Input::IsKeyPressed(LNA_KEY_D);
+			}
+			else
+			{
+				if (luna::Input::IsKeyPressed(LNA_KEY_SPACE))
+				{
+					if (plyr.Lives <= 0)
+					{
+						plyr.Score = 0;
+						plyr.Lives = 3;
+					}
+
+					reg.emplace_or_replace<component::Transform>(player, glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
+					reg.emplace_or_replace<component::Velocity>(player, glm::vec3(0.0f), 0.025f);
+					plyr.Alive = true;
+				}
+			}
 		}
 	}
 }

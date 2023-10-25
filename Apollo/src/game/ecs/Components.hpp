@@ -16,7 +16,7 @@ namespace component
 	struct Rock
 	{
 		int Level = 3;
-		bool RotateLeft = false;
+		bool Broken = false, RotateLeft = false;
 	};
 
 	struct Velocity
@@ -39,7 +39,7 @@ namespace component
 
 	struct Player
 	{
-		int Lives = 3;
+		int Lives = 3, Score = 0;
 		bool Alive = true, Firing = false;
 
 		bool Forward = false, Backward = false;

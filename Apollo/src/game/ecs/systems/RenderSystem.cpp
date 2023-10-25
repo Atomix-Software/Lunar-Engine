@@ -36,6 +36,8 @@ namespace game
 			auto pview = reg.view<component::Player, component::Renderable, component::Transform>();
 			for (auto [entity, plyer, spr, trans] : pview.each())
 			{ 
+				if (!plyer.Alive) continue;
+
 				luna::Renderer2D::DrawRotatedQuad(trans.Position, { spr.width * trans.Scale.x, spr.height * trans.Scale.y }, trans.Rotation.z, spr.texture);
 			}
 

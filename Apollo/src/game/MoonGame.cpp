@@ -1,11 +1,7 @@
 #include "MoonGame.h"
 #include <random>
 
-#include "ecs/Components.hpp"
-
-#include "ecs/systems/RenderSystem.h"
-#include "ecs/systems/PlayerSystem.h"
-#include "ecs/systems/MotionSystem.h"
+#include "ecs/Systems.h"
 
 namespace game
 {
@@ -29,6 +25,7 @@ namespace game
 		m_Engine.AddSystem(new ecs::RenderSystem(m_CamControl, 0));
 		m_Engine.AddSystem(new ecs::PlayerSystem(1));
 		m_Engine.AddSystem(new ecs::MotionSystem(2));
+		m_Engine.AddSystem(new ecs::CollisionSystem(3));
 		m_Engine.Start();
 
 		m_Textures["stars"] = Texture2D::Create("assets/textures/stars.png");
@@ -61,6 +58,7 @@ namespace game
 			float num = randf(-1.0f, 1.0f);
 			auto levelNum = levelGn(rng);
 
+			m_Engine.AddComponent<component::Collision>(rock);
 			m_Engine.AddComponent<component::Rock>(rock, levelNum, num > 0.0f ? true : false);
 			float speed = 0.2f;
 
@@ -80,12 +78,20 @@ namespace game
 				break;
 			}
 
-			m_Engine.AddComponent<component::Transform>(rock, glm::vec3(randf(-1.0f, 1.0f), randf(-1.0f, 1.0f), 0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
+			glm::vec2 rockPos(glm::vec3(randf(-1.0f, 1.0f), randf(-1.0f, 1.0f), 0.0f));
+			while (rockPos.x >= -0.5f && rockPos.x <= 0.5f)
+				rockPos.x = randf(-1.0f, 1.0f);
+
+			while (rockPos.y >= -0.5f && rockPos.y <= 0.5f)
+				rockPos.y = randf(-1.0f, 1.0f);
+
+			m_Engine.AddComponent<component::Transform>(rock, glm::vec3(rockPos.x, rockPos.y, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
 			m_Engine.AddComponent<component::Velocity>(rock, glm::vec3(randf(-0.5f, 0.5f), randf(-0.5f, 0.5f), 0.0f), speed);
 		}
 
 		auto player = m_Engine.CreateEntity("Player");
 		m_Engine.AddComponent<component::Player>(player);
+		m_Engine.AddComponent<component::Collision>(player);
 		m_Engine.AddComponent<component::Renderable>(player, Ship, 0.075f, 0.075f);
 		m_Engine.AddComponent<component::Transform>(player, glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
 		m_Engine.AddComponent<component::Velocity>(player, glm::vec3(0.0f), 0.025f);

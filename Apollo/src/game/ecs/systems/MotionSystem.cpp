@@ -32,6 +32,8 @@ namespace game
 					auto& player = entity;
 					auto& plyr = reg.get<component::Player>(player);
 
+					if (!plyr.Alive) continue;
+
 					if (plyr.TurnLeft)
 						transform.Rotation.z -= 180.0f * ts;
 					else if (plyr.TurnRight)

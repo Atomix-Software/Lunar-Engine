@@ -65,17 +65,19 @@ namespace game
 				// AABB collision check
 				bool collisionX = pos.x - halfSize.x < rkPos.x + rkHalfSize.x && pos.x + halfSize.x > rkPos.x - rkHalfSize.x;
 				bool collisionY = pos.y - halfSize.y < rkPos.y + rkHalfSize.y && pos.y + halfSize.y > rkPos.y - rkHalfSize.y;
-
-
+					
+				auto& rockComp = reg.get<component::Rock>(rock);
 				if (!collisionX || !collisionY)
 				{
 					col.Collided = false;
 					rkCol.Collided = false;
+					rockComp.Broken = false;
 				}
 				else
 				{
 					col.Collided = true;
 					rkCol.Collided = true;
+					rockComp.Broken = true;
 
 					plyr.Alive = false;
 					plyr.Lives--;

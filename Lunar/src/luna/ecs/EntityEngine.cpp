@@ -11,6 +11,8 @@ namespace luna
 
 		Engine::~Engine()
 		{
+			Stop();
+
 			m_Registry.clear();
 			m_Systems.clear();
 		}

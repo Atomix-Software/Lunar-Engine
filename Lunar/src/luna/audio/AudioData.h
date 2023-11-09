@@ -8,6 +8,7 @@
 #include <vorbis/vorbisfile.h>
 
 #include <AL/al.h>
+#include <AL/alc.h>
 
 const size_t NUM_BUFFERS = 4;
 const ALsizei BUFFER_SIZE = 65536;

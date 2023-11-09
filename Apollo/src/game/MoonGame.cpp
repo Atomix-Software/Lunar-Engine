@@ -1,7 +1,8 @@
 #include "MoonGame.h"
 #include <random>
-#include <AL/al.h>
-#include <AL/alc.h>
+
+#include "luna/audio/AudioData.h"
+#include "luna/audio/OpenAL.hpp"
 
 #include "ecs/Systems.h"
 
@@ -14,6 +15,7 @@ namespace game
 	ALCcontext* Context;
 
 	using namespace luna;
+
 	Shared<TextureAtlas2D> Stars[4];
 
 	MoonGame::MoonGame() :
@@ -27,27 +29,18 @@ namespace game
 			alcMakeContextCurrent(Context);
 		}
 
-		ALboolean g_bEAX = alIsExtensionPresent("EAX2.0");
-		ALuint g_Buffers;
+		ALboolean bEAX = alIsExtensionPresent("EAX2.0");
+		ALuint iBuffers;
 
-		alGetError();
-		alGenBuffers(1, &g_Buffers);
-		auto error = alGetError();
-		if (error != AL_NO_ERROR)
-		{
-			LNA_ERROR("Failed to generate audio buffers!");
-			luna::Application::Get().Close();
-			return;
-		}
+		alCall(alGenBuffers, 1, &iBuffers);
 
+		Context = alCall(alcGetCurrentContext);
+		Device = alCall(alcGetContextsDevice, Context);
 		
 
-		Context = alcGetCurrentContext();
-		Device = alcGetContextsDevice(Context);
-
-		alcMakeContextCurrent(NULL);
-		alcDestroyContext(Context);
-		alcCloseDevice(Device);
+		alCall(alcMakeContextCurrent, static_cast<ALCcontext*>(NULL));
+		alCall(alcDestroyContext, Context);
+		alCall(alcCloseDevice, Device);
 
 		m_Textures["stars"] = Texture2D::Create("assets/textures/stars.png");
 		m_Textures["ship_rocks"] = Texture2D::Create("assets/textures/ship_rocks.png");

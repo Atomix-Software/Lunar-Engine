@@ -1,0 +1,12 @@
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/Experimental.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/Nightly.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/Continuous.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/NightlyMemoryCheck.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/ogg.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/test_bitwise.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/test_framing.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/PACKAGE.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/RUN_TESTS.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/INSTALL.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/ALL_BUILD.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libogg/win32/VS2022/CMakeFiles/ZERO_CHECK.dir

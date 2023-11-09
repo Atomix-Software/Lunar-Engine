@@ -1,0 +1,7 @@
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/win32/VS2022/CMakeFiles/INSTALL.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/win32/VS2022/CMakeFiles/ALL_BUILD.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/win32/VS2022/CMakeFiles/ZERO_CHECK.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/win32/VS2022/lib/CMakeFiles/vorbis.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/win32/VS2022/lib/CMakeFiles/vorbisenc.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/win32/VS2022/lib/CMakeFiles/vorbisfile.dir
+C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/win32/VS2022/lib/CMakeFiles/INSTALL.dir

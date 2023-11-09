@@ -1,0 +1,20 @@
+﻿  Building Custom Rule C:/Workspace/visual_studio/game-engine/Lunar/vendors/libvorbis/lib/CMakeLists.txt
+  vorbisfile.c
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(71,30): warning C4267: 'initializing': conversion from 'size_t' to 'long', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(258,30): warning C4244: 'function': conversion from 'ogg_int64_t' to 'long', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(276,15): warning C4244: '=': conversion from 'ogg_int64_t' to 'int', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(548,21): warning C4244: 'return': conversion from 'ogg_int64_t' to 'int', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(569,19): warning C4244: 'return': conversion from 'ogg_int64_t' to 'int', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(572,19): warning C4244: 'return': conversion from 'ogg_int64_t' to 'int', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(582,19): warning C4244: 'return': conversion from 'ogg_int64_t' to 'int', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(644,19): warning C4244: 'return': conversion from 'ogg_int64_t' to 'int', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(877,18): warning C4244: 'function': conversion from 'ogg_int64_t' to 'long', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(1121,14): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(1122,11): warning C4244: 'return': conversion from 'double' to 'long', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(1126,13): warning C4244: 'return': conversion from 'double' to 'long', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(1154,51): warning C4244: '=': conversion from 'double' to 'long', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(1763,33): warning C4244: '=': conversion from 'ogg_int64_t' to 'long', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(1800,33): warning C4244: 'initializing': conversion from 'double' to 'ogg_int64_t', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(1830,33): warning C4244: 'initializing': conversion from 'double' to 'ogg_int64_t', possible loss of data
+C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\lib\vorbisfile.c(2169,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  vorbisfile.vcxproj -> C:\Workspace\visual_studio\game-engine\Lunar\vendors\libvorbis\win32\VS2022\lib\Debug\vorbisfile.lib

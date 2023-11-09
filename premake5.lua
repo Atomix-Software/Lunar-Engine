@@ -13,6 +13,9 @@ workspace "LunarEngine"
     INCLUDE_DIR["Glad"] = "Lunar/vendors/glad/include"
     INCLUDE_DIR["entt"] = "Lunar/vendors/entt/include"
     INCLUDE_DIR["stb_image"] = "Lunar/vendors/stb_image"
+    INCLUDE_DIR["libogg"] = "Lunar/vendors/libogg/include"
+    INCLUDE_DIR["libvorbis"] = "Lunar/vendors/libvorbis/include"
+    INCLUDE_DIR["openal"] = "Lunar/vendors/openal-soft/include"
 
     include "Lunar/vendors/glfw"
     include "Lunar/vendors/glad"
@@ -45,7 +48,8 @@ workspace "LunarEngine"
         }
 
         defines {
-            "_CRT_SECURE_NO_WARNINGS"
+            "_CRT_SECURE_NO_WARNINGS",
+            "AL_LIBTYPE_STATIC"
         }
 
         includedirs {
@@ -56,13 +60,23 @@ workspace "LunarEngine"
             "%{INCLUDE_DIR.GLM}",
             "%{INCLUDE_DIR.Glad}",
             "%{INCLUDE_DIR.entt}",
+            "%{INCLUDE_DIR.openal}",
+            "%{INCLUDE_DIR.libvorbis}",
+            "%{INCLUDE_DIR.libogg}",
             "%{INCLUDE_DIR.stb_image}"
         }
 
         links {
             "glfw",
             "glad",
-            "opengl32.lib"
+            "opengl32.lib",
+            "./Lunar/vendors/libogg/libs/ogg.lib",
+            "./Lunar/vendors/libvorbis/libs/vorbis.lib",
+            "./Lunar/vendors/libvorbis/libs/vorbisenc.lib",
+            "./Lunar/vendors/libvorbis/libs/vorbisfile.lib",
+            "./Lunar/vendors/openal-soft/libs/alcommon.lib",
+            "./Lunar/vendors/openal-soft/libs/al-excommon.lib",
+            "./Lunar/vendors/openal-soft/libs/OpenAL32.lib",
         }
 
         filter "system:windows"
@@ -109,6 +123,9 @@ project "Apollo"
         {
             "%{INCLUDE_DIR.GLM}",
             "%{INCLUDE_DIR.entt}",
+            "%{INCLUDE_DIR.openal}",
+            "%{INCLUDE_DIR.libvorbis}",
+            "%{INCLUDE_DIR.libogg}",
             "Lunar/vendors/spdlog/include",
             "Lunar/vendors",
             "Lunar/src"

@@ -41,14 +41,14 @@ namespace component
 
 	struct Gameplay
 	{
-		bool NewGame = true;
-		bool GameOver = false;
+		int Level = 1, Lives = 3, Score = 0;
+		bool NewGame = true, GameOver = false;
 	};
 
 	struct Player
 	{
-		int Lives = 3, Score = 0;
-		bool Alive = true, Firing = false;
+		bool Alive = true;
+		bool Firing = false, CanFire = true;
 
 		bool Forward = false, Backward = false;
 		bool TurnLeft = false, TurnRight = false;

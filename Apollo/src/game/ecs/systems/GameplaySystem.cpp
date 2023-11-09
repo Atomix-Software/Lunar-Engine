@@ -11,7 +11,7 @@ namespace game
 		auto player = reg.create();
 		reg.emplace<component::Tag>(player, "Player");
 		reg.emplace<component::Player>(player);
-		reg.emplace<component::Timer>(player);
+		reg.emplace<component::Timer>(player, 0.25f, 0.0f);
 		reg.emplace<component::Collision>(player);
 		reg.emplace<component::Renderable>(player, texture, 0.075f, 0.075f);
 		reg.emplace<component::Transform>(player, glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
@@ -24,8 +24,10 @@ namespace game
 	{
 		auto bullet = reg.create();
 		reg.emplace<component::Tag>(bullet, "Bullet");
+		reg.emplace<component::Timer>(bullet, 0.8f, 0.0f);
+		reg.emplace<component::Collision>(bullet);
 		reg.emplace<component::Renderable>(bullet, texture, 0.075f, 0.075f);
-		reg.emplace<component::Transform>(bullet, glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
+		reg.emplace<component::Transform>(bullet, glm::vec3(position.x, position.y, 0.0f), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(1.0f));
 		reg.emplace<component::Velocity>(bullet, glm::vec3(direction.x, direction.y, 0.0f), speed);
 		return bullet;
 	}
@@ -42,29 +44,22 @@ namespace game
 		return rock;
 	}
 
+	void ClearLevel(entt::registry& reg)
+	{
+		auto allEntities = reg.view<component::Tag>();
+		for (auto [entity, data] : allEntities.each())
+		{
+			if (data.Name.compare("Star") == 0 || data.Name.compare("GamePlay") == 0)
+				continue;
+
+			reg.destroy(entity);
+		}
+	}
+
 	void SetupLevel(std::mt19937 rng, entt::registry& reg, luna::Shared<luna::TextureAtlas2D> rockTextures[3], unsigned int level)
 	{
-		int RockSpawn;
-		switch (level)
-		{
-		case 0:
-			return;
-		case 1:
-			RockSpawn = 6;
-			break;
-
-		case 2:
-			RockSpawn = 12;
-			break;
-
-		case 3:
-			RockSpawn = 20;
-			break;
-
-		default:
-			RockSpawn = 100;
-			break;
-		}
+		int baseSpawn = 6;
+		int RockSpawn = baseSpawn + static_cast<int>((baseSpawn * 0.5f) * level);
 
 		std::uniform_int_distribution<int> levelGn(1, 3);
 		for (int i = 0; i < RockSpawn; i++)
@@ -111,6 +106,7 @@ namespace game
 
 		using namespace luna;
 		Shared<TextureAtlas2D> Ship;
+		Shared<TextureAtlas2D> Bullet;
 		Shared<TextureAtlas2D> Rocks[3];
 
 		std::random_device rd;
@@ -119,6 +115,7 @@ namespace game
 		GameplaySystem::GameplaySystem(std::unordered_map<const char*, luna::Shared<luna::Texture2D>>& textures, int priority) :
 			EntitySystem(priority)
 		{
+			Bullet = TextureAtlas2D::CreateFromCoords(textures["stars"], { 0, 0 }, { 16, 16 });
 			Ship = TextureAtlas2D::CreateFromCoords(textures["ship_rocks"], { 0, 0 }, { 16, 16 });
 
 			Rocks[0] = TextureAtlas2D::CreateFromCoords(textures["ship_rocks"], { 1, 0 }, { 16, 16 });
@@ -131,7 +128,6 @@ namespace game
 
 		}
 
-		float timer = 0;
 		void GameplaySystem::ProcessEntities(entt::registry& reg, luna::Timestep ts)
 		{
 			auto view = reg.view<component::Gameplay>();
@@ -142,22 +138,91 @@ namespace game
 
 			if (gameplay.NewGame)
 			{
-				SetupLevel(rng, reg, Rocks, 1);
+				gameplay.Level = 1;
+				gameplay.Lives = 3;
+				gameplay.Score = 0;
+
+				SetupLevel(rng, reg, Rocks, gameplay.Level);
 				CreatePlayer(reg, Ship);
+
 				gameplay.NewGame = false;
+				return;
 			}
 
-			int rockCount = 0;
 			auto rockView = reg.view<component::Rock>();
+			int rockCount = rockView.size();
 			for (auto [entity, rock] : rockView.each())
 			{
 				if (!rock.Broken)
-				{
-					rockCount++;
 					continue;
+
+				rockCount--;
+				if (rockCount <= 0)
+					continue;
+
+				switch (rock.Level)
+				{
+				case 1:
+					gameplay.Score++;
+					break;
+
+				case 2:
+					gameplay.Score += 2;
+					break;
+
+				case 3:
+					gameplay.Score += 5;
+					break;
 				}
 
+				LNA_TRACE("Rock Count: {}", rockCount);
 				reg.destroy(entity);
+			}
+
+			if (rockCount <= 0)
+			{
+				gameplay.Level++;
+				ClearLevel(reg);
+				LNA_INFO("New Level! Current Score: {}", gameplay.Score);
+
+				SetupLevel(rng, reg, Rocks, gameplay.Level);
+				CreatePlayer(reg, Ship);
+				return;
+			}
+
+			auto bulletView = reg.view<component::Tag, component::Collision>();
+			for (auto [entity, tag, col] : bulletView.each())
+			{
+				if (tag.Name.compare("Bullet") != 0)
+					continue;
+
+				if (col.Collided)
+					reg.destroy(entity);
+			}
+
+			// Ticking down every timer in existence, pausing maybe here?
+
+			auto timerView = reg.view <component::Tag, component::Timer>();
+			for (auto [entity, tag, timer] : timerView.each())
+			{
+				timer.Counter += ts.GetSeconds();
+
+				if (timer.Counter >= timer.Time)
+				{
+					if (tag.Name.compare("Bullet") == 0)
+					{
+						reg.destroy(entity);
+						continue;
+					}
+
+					if (tag.Name.compare("Player") == 0)
+					{
+						auto& data = reg.get<component::Player>(entity);
+						data.CanFire = true;
+					}
+
+					timer.Counter = 0.0f;
+				}
 			}
 
 			auto playerView = reg.view<component::Player>();
@@ -167,38 +232,33 @@ namespace game
 
 			auto player = playerView.back();
 			auto& data = reg.get<component::Player>(player);
+			auto& trans = reg.get<component::Transform>(player);
+			auto& sprite = reg.get<component::Renderable>(player);
+			auto& velocity = reg.get<component::Velocity>(player);
 			if (data.Alive)
 			{
-				timer += ts;
-
-				if (timer >= 1.0f)
+				if (data.Firing)
 				{
-					LNA_TRACE("Rock Count: {}", rockCount);
-					timer = 0;
+					// Convert degrees to radians for rotation
+					float rotationRadians = glm::radians(trans.Rotation.z);
+					// Calculate direction vector based on rotation
+					glm::vec2 direction = glm::vec2(-std::cos(rotationRadians), std::sin(rotationRadians));
+
+					// Normalize the direction vector
+					direction = glm::normalize(direction);
+
+					// TODO: Implement a delay for firing shots
+					CreateBullet(reg, Bullet, glm::vec2(trans.Position.x, trans.Position.y), direction, 1.5f);
+					data.CanFire = false;
 				}
 			}
 			else
 			{
 				if (luna::Input::IsKeyPressed(LNA_KEY_SPACE))
 				{
-					if (data.Lives <= 0)
+					if (gameplay.Lives <= 0)
 					{
-						auto allEntities = reg.view<component::Tag>();
-						for (auto [entity, data] : allEntities.each())
-						{
-							if (data.Name.compare("Rock") == 0)
-							{
-								reg.destroy(entity);
-								continue;
-							}
-
-							if (data.Name.compare("Player") == 0)
-							{
-								reg.destroy(entity);
-								continue;
-							}
-						}
-
+						ClearLevel(reg);
 						gameplay.NewGame = true;
 					}
 					else

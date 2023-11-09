@@ -32,10 +32,7 @@ namespace game
 			auto& data = reg.get<component::Player>(player);
 			if (!data.Alive) return;
 
-			if (static_cast<int>(ts.GetSeconds()) % 2 == 0.0f)
-				data.Score++;
-
-			data.Firing = luna::Input::IsKeyPressed(LNA_KEY_SPACE);
+			data.Firing = luna::Input::IsKeyPressed(LNA_KEY_SPACE) && data.CanFire;
 
 			data.Forward = luna::Input::IsKeyPressed(LNA_KEY_W) && !luna::Input::IsKeyPressed(LNA_KEY_S);
 			data.Backward = !luna::Input::IsKeyPressed(LNA_KEY_W) && luna::Input::IsKeyPressed(LNA_KEY_S);

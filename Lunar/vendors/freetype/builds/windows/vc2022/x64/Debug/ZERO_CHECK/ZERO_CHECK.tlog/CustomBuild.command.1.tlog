@@ -1,0 +1,10 @@
+^C:\WORKSPACE\LIBRARIES\FREETYPE-2.13.2\BUILDS\WINDOWS\VC2022\CMAKEFILES\78ACE9F16C22A9D1D7B500D49120D5A2\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Workspace/libraries/freetype-2.13.2 -BC:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022 --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022/freetype.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

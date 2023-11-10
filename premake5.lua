@@ -16,6 +16,7 @@ workspace "LunarEngine"
     INCLUDE_DIR["libogg"] = "Lunar/vendors/libogg/include"
     INCLUDE_DIR["libvorbis"] = "Lunar/vendors/libvorbis/include"
     INCLUDE_DIR["openal"] = "Lunar/vendors/openal-soft/include"
+    INCLUDE_DIR["freetype"] = "Lunar/vendors/freetype/include"
 
     include "Lunar/vendors/glfw"
     include "Lunar/vendors/glad"
@@ -63,6 +64,7 @@ workspace "LunarEngine"
             "%{INCLUDE_DIR.openal}",
             "%{INCLUDE_DIR.libvorbis}",
             "%{INCLUDE_DIR.libogg}",
+            "%{INCLUDE_DIR.freetype}",
             "%{INCLUDE_DIR.stb_image}"
         }
 
@@ -70,6 +72,7 @@ workspace "LunarEngine"
             "glfw",
             "glad",
             "opengl32.lib",
+            "./Lunar/vendors/freetype/libs/freetype.lib",
             "./Lunar/vendors/libogg/libs/ogg.lib",
             "./Lunar/vendors/libvorbis/libs/vorbis.lib",
             "./Lunar/vendors/libvorbis/libs/vorbisenc.lib",
@@ -126,6 +129,7 @@ project "Apollo"
             "%{INCLUDE_DIR.openal}",
             "%{INCLUDE_DIR.libvorbis}",
             "%{INCLUDE_DIR.libogg}",
+            "%{INCLUDE_DIR.freetype}",
             "Lunar/vendors/spdlog/include",
             "Lunar/vendors",
             "Lunar/src"

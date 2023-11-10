@@ -8,6 +8,7 @@ I don't want to use Unity anymore so I'm developing this.
 - Astroids (coming soon)
 
 ## Libraries
+- freetype
 - glfw
 - glad
 - glm

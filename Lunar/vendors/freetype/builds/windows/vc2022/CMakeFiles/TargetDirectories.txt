@@ -1,0 +1,5 @@
+C:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022/CMakeFiles/freetype.dir
+C:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022/CMakeFiles/PACKAGE.dir
+C:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022/CMakeFiles/INSTALL.dir
+C:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022/CMakeFiles/ALL_BUILD.dir
+C:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022/CMakeFiles/ZERO_CHECK.dir

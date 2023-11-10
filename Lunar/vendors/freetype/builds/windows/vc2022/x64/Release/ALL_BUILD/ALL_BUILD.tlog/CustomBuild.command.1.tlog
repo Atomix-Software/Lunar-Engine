@@ -1,0 +1,10 @@
+^C:\WORKSPACE\LIBRARIES\FREETYPE-2.13.2\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Workspace/libraries/freetype-2.13.2 -BC:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022 --check-stamp-file C:/Workspace/libraries/freetype-2.13.2/builds/windows/vc2022/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

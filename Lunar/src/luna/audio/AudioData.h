@@ -10,6 +10,8 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
+const float DEFAULT_GAIN = 0.5f;
+
 const size_t NUM_BUFFERS = 4;
 const ALsizei BUFFER_SIZE = 65536;
 
@@ -36,6 +38,11 @@ namespace luna
 			OggVorbis_File OggVorbisFile;
 			std::int_fast32_t OggCurrentSection = 0;
 			std::size_t Duration;
+		};
+
+		struct WavStreamData
+		{
+			// TODO: Implement the data a Wav file has so it can be processed and played
 		};
 
 	}

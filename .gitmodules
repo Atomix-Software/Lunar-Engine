@@ -7,3 +7,6 @@
 [submodule "Lunar/vendors/spdlog"]
 	path = Lunar/vendors/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Lunar/vendors/openal-soft"]
+	path = Lunar/vendors/openal-soft
+	url = https://github.com/Atomix-Software/openal-soft

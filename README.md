@@ -14,6 +14,6 @@ I don't want to use Unity anymore so I'm developing this.
 - glm
 - libogg
 - libvorbis
-- openal
+- openal-soft (you need to use cmake and build this yourself)
 - stb libraries
 - spdlog

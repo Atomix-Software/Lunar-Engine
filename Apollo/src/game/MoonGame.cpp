@@ -1,8 +1,6 @@
 #include "MoonGame.h"
 #include <random>
 
-#include <luna/audio/VorbisOgg.hpp>
-
 #include "ecs/Systems.h"
 
 namespace game
@@ -10,47 +8,15 @@ namespace game
 	std::random_device rd;
 	std::mt19937 rng(rd());
 
-	ALCdevice* Device;
-	ALCcontext* Context;
-
 	using namespace luna;
 
 	Shared<TextureAtlas2D> Stars[4];
-	Shared<audio::OggStreamData> TestSound;
 
 	MoonGame::MoonGame() :
 		Layer("MoonGame"), m_CamControl(640.f, 640.f) {}
 
 	void MoonGame::OnAttach()
 	{
-		Device = alcOpenDevice(nullptr);
-		if (Device) {
-			if (!alcCall(alcCreateContext, Context, Device, Device, nullptr))
-			{
-				LNA_ERROR("Failed to load Audio Context!");
-				Application::Get().Close();
-			}
-
-			ALCboolean pass;
-			alcCall(alcMakeContextCurrent, pass, Device, Context);
-			if (!pass)
-			{
-				LNA_ERROR("Failed to make Audio Context Current!");
-				Application::Get().Close();
-			}
-
-			alcCall(alcGetContextsDevice, Device, Device, Context);
-		}
-
-		TestSound = CreateShared<audio::OggStreamData>();
-		if (!audio::create_stream_from_file("assets/audio/gameover.ogg", *TestSound.get()))
-		{
-			LNA_ERROR("Failed to load gameover.ogg");
-			Application::Get().Close();
-		}
-		audio::start_ogg(*TestSound.get());
-
-
 		m_Textures["stars"] = Texture2D::Create("assets/textures/stars.png");
 		m_Textures["ship_rocks"] = Texture2D::Create("assets/textures/ship_rocks.png");
 
@@ -82,27 +48,11 @@ namespace game
 	void MoonGame::OnDetach()
 	{
 		m_Textures.clear();
-
-		alcCall(alcGetCurrentContext, Context, Device);
-		alcCall(alcGetContextsDevice, Device, Device, Context);
-
-		ALCboolean success;
-		alcCall(alcMakeContextCurrent, success, Device, nullptr);
-		if(!success)
-			LNA_ERROR("Failed to invalidate context!");
-
-		if(!alcCall(alcDestroyContext, Device, Context))
-			LNA_ERROR("Failed to destroy context!");
-
-		if (!alCall(alcCloseDevice, Device))
-			LNA_ERROR("Failed to close Audio Device!");
 	}
 
 	void MoonGame::OnUpdate(Timestep ts)
 	{
 		m_CamControl.OnUpdate(ts);
-
-		audio::update_ogg(*TestSound.get());
 
 		if (Input::IsKeyPressed(LNA_KEY_ESCAPE))
 		{

@@ -12,11 +12,12 @@ workspace "LunarEngine"
     INCLUDE_DIR["GLM"]  = "Lunar/vendors/glm"
     INCLUDE_DIR["Glad"] = "Lunar/vendors/glad/include"
     INCLUDE_DIR["entt"] = "Lunar/vendors/entt/include"
-    INCLUDE_DIR["stb_image"] = "Lunar/vendors/stb_image"
+    INCLUDE_DIR["stb"] = "Lunar/vendors/stb"
     INCLUDE_DIR["libogg"] = "Lunar/vendors/libogg/include"
     INCLUDE_DIR["libvorbis"] = "Lunar/vendors/libvorbis/include"
     INCLUDE_DIR["openal"] = "Lunar/vendors/openal-soft/include"
     INCLUDE_DIR["freetype"] = "Lunar/vendors/freetype/include"
+    INCLUDE_DIR["spdlog"] = "Lunar/vendors/spdlog/include"
 
     include "Lunar/vendors/glfw"
     include "Lunar/vendors/glad"
@@ -40,8 +41,8 @@ workspace "LunarEngine"
             "%{prj.name}/src/**.cpp",
             "%{prj.name}/src/**.hpp",
 
-            "%{prj.name}/vendors/stb_image/**.cpp",
-            "%{prj.name}/vendors/stb_image/**.h",
+            "%{prj.name}/vendors/stb/**.cpp",
+            "%{prj.name}/vendors/stb/**.h",
 
             "%{prj.name}/vendors/glm/glm/**.h",
             "%{prj.name}/vendors/glm/glm/**.hpp",
@@ -55,17 +56,17 @@ workspace "LunarEngine"
 
         includedirs {
             "%{prj.name}/src",
-            "%{prj.name}/vendors/spdlog/include",
             
             "%{INCLUDE_DIR.GLFW}",
             "%{INCLUDE_DIR.GLM}",
             "%{INCLUDE_DIR.Glad}",
             "%{INCLUDE_DIR.entt}",
-            "%{INCLUDE_DIR.openal}",
             "%{INCLUDE_DIR.libvorbis}",
             "%{INCLUDE_DIR.libogg}",
+            "%{INCLUDE_DIR.openal}",
             "%{INCLUDE_DIR.freetype}",
-            "%{INCLUDE_DIR.stb_image}"
+            "%{INCLUDE_DIR.spdlog}",
+            "%{INCLUDE_DIR.stb}"
         }
 
         links {
@@ -126,11 +127,12 @@ project "Apollo"
         {
             "%{INCLUDE_DIR.GLM}",
             "%{INCLUDE_DIR.entt}",
-            "%{INCLUDE_DIR.openal}",
             "%{INCLUDE_DIR.libvorbis}",
             "%{INCLUDE_DIR.libogg}",
+            "%{INCLUDE_DIR.openal}",
+            "%{INCLUDE_DIR.stb}",
             "%{INCLUDE_DIR.freetype}",
-            "Lunar/vendors/spdlog/include",
+            "%{INCLUDE_DIR.spdlog}",
             "Lunar/vendors",
             "Lunar/src"
         }
